@@ -1,0 +1,23 @@
+# DVO-L3-7F2A91
+# PersistentVolumeClaim для постійного зберігання даних PostgreSQL
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: devopslab1
+
+  labels:
+    mascot: kabachok
+
+  annotations:
+    devops-lab/mascot-approved: "true"
+    devops-lab/mascot: "кабачок"
+
+spec:
+  accessModes:
+    - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: 1Gi

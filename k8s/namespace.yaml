@@ -1,0 +1,14 @@
+# DVO-L3-7F2A91
+# Namespace для ізоляції всіх об'єктів лабораторної роботи №3
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: devopslab1
+
+  labels:
+    mascot: kabachok
+
+  annotations:
+    devops-lab/mascot-approved: "true"
+    devops-lab/mascot: "кабачок"

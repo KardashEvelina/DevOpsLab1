@@ -1,0 +1,109 @@
+# DVO-L3-7F2A91
+# Deployment для запуску Spring Boot застосунку у двох репліках
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopslab1-app
+  namespace: devopslab1
+
+  labels:
+    app: devopslab1-app
+    mascot: kabachok
+
+  annotations:
+    devops-lab/mascot-approved: "true"
+    devops-lab/mascot: "кабачок"
+
+spec:
+  # Запускаємо дві репліки застосунку
+  replicas: 2
+
+  # Визначаємо, які Pod належать Deployment
+  selector:
+    matchLabels:
+      app: devopslab1-app
+
+  # Шаблон для створення Pod
+  template:
+    metadata:
+      labels:
+        app: devopslab1-app
+        mascot: kabachok
+
+      annotations:
+        devops-lab/mascot-approved: "true"
+        devops-lab/mascot: "кабачок"
+
+    spec:
+      containers:
+        - name: devopslab1-app
+
+          # Використовуємо конкретну версію Docker-образу
+          image: devopslab1:1.0.0
+
+          # Якщо образ є локально, Kubernetes використає його
+          imagePullPolicy: IfNotPresent
+
+          # Порт Spring Boot застосунку
+          ports:
+            - containerPort: 8080
+
+          # Змінні середовища застосунку
+          env:
+            # Назва застосунку з ConfigMap
+            - name: SPRING_APPLICATION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: SPRING_APPLICATION_NAME
+
+            # Налаштування Hibernate з ConfigMap
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: SPRING_JPA_HIBERNATE_DDL_AUTO
+
+            # Адреса PostgreSQL всередині кластера
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://postgres:5432/devopslab"
+
+            # Користувач PostgreSQL
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "postgres"
+
+            # Пароль PostgreSQL з Secret
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: POSTGRES_PASSWORD
+
+          # Мінімальні та максимальні ресурси контейнера
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          # Перевірка готовності застосунку приймати запити
+          readinessProbe:
+            httpGet:
+              path: /tasks
+              port: 8080
+
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+          # Перевірка, чи застосунок працює
+          livenessProbe:
+            httpGet:
+              path: /tasks
+              port: 8080
+
+            initialDelaySeconds: 30
+            periodSeconds: 15

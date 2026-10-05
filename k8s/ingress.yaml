@@ -1,0 +1,29 @@
+# DVO-L3-7F2A91
+# Ingress для доступу до Spring Boot застосунку з хоста
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: devopslab1-ingress
+  namespace: devopslab1
+
+  labels:
+    mascot: kabachok
+
+  annotations:
+    devops-lab/mascot-approved: "true"
+    devops-lab/mascot: "кабачок"
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: devopslab1-service
+                port:
+                  number: 80

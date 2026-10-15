@@ -1,0 +1,26 @@
+# DVO-L3-7F2A91
+# Service для доступу до PostgreSQL всередині Kubernetes-кластера
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: devopslab1
+
+  labels:
+    app: postgres
+    mascot: kabachok
+
+  annotations:
+    devops-lab/mascot-approved: "true"
+    devops-lab/mascot: "кабачок"
+
+spec:
+  selector:
+    app: postgres
+
+  ports:
+    - port: 5432
+      targetPort: 5432
+
+  type: ClusterIP

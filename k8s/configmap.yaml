@@ -1,0 +1,19 @@
+# DVO-L3-7F2A91
+# ConfigMap з параметрами конфігурації Spring Boot застосунку
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: devopslab1
+
+  labels:
+    mascot: kabachok
+
+  annotations:
+    devops-lab/mascot-approved: "true"
+    devops-lab/mascot: "кабачок"
+
+data:
+  SPRING_APPLICATION_NAME: "DevOpsLab1"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "update"

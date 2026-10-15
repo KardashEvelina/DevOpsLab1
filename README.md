@@ -1,28 +1,14 @@
-# DVO-L3-7F2A91
-# DevOpsLab1
+# DVO-L4-3C8B52
 
-Оформлено згідно з Додатком А (кабачок, DVO-L3-7F2A91)
+# DevOpsLab1 — Helm
 
-## Опис проєкту
+Helm-чарт для розгортання Spring Boot застосунку DevOpsLab1 разом із PostgreSQL у Kubernetes-кластері.
 
-DevOpsLab1 — Spring Boot застосунок для роботи із задачами, який використовує PostgreSQL як базу даних.
+Оформлено згідно з Додатком А (гарбуз, DVO-L4-3C8B52)
 
-У лабораторній роботі №3 застосунок розгорнуто у локальному Kubernetes-кластері Minikube.
+## Структура Helm-чарта
 
-## Використані компоненти
+Helm-чарт розташований у каталозі:
 
-- Kubernetes
-- Minikube
-- Docker
-- kubectl
-- Spring Boot
-- PostgreSQL
-- Ingress NGINX
-- ConfigMap
-- Secret
-- PersistentVolumeClaim
-
-## Запуск Minikube
-
-```bash
-minikube start --driver=docker
+```text
+helm/devopslab1/
